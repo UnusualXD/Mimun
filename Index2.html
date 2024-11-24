@@ -302,6 +302,25 @@
                         <span id="taskCategory" class="badge category"></span>
                     </div>
                 </div>
+                 <div class="task-header">
+                    <h3 id="taskTitle" class="task-title"></h3>
+                    <div class="badges">
+                        <span id="taskDifficulty" class="badge"></span>
+                        <span id="taskCategory" class="badge category"></span>
+                    </div>
+                </div>
+                <div class="task-time">⏱️ זמן מומלץ: <span id="recommendedTime"></span></div>
+                <div class="timer-section">
+                    <div id="timer" class="timer-display"></div>
+                    <div class="timer-controls">
+                        <button id="startTimer" class="timer-btn">
+                            <i class="fas fa-play"></i> התחל
+                        </button>
+                        <button id="resetTimer" class="timer-btn" style="display: none;">
+                            <i class="fas fa-redo"></i> אפס
+                        </button>
+                    </div>
+                </div>
                 <div class="timer-section">
                     <div id="timer" class="timer-display">03:00</div>
                     <div class="timer-controls">
@@ -330,6 +349,140 @@
     <script>
         const tasks = [
             {
+                name: "מסע הכיסא המסתובב",
+                description: "בצע סיבוב שלם על הכיסא המשרדי מבלי שהרגליים נוגעות ברצפה",
+                timeInSeconds: 30,
+                difficulty: "easy",
+                category: "משרדי",
+                explanation: "התרכז בשיווי המשקל ושמור על גב זקוף",
+                tips: "שב במרכז הכיסא ואחוז בשולחן לפני תחילת הסיבוב"
+            },
+            {
+                name: "הסבר תהליך הלוואה",
+                description: "הסבר את תהליך אישור ההלוואה ב-5 שלבים פשוטים ללקוח חדש",
+                timeInSeconds: 60,
+                difficulty: "medium",
+                category: "שירות לקוחות",
+                explanation: "התמקד בשלבים העיקריים והמידע החשוב ביותר",
+                tips: "השתמש בדוגמאות פשוטות ומספרים עגולים"
+            },
+            {
+                name: "פתרון התנגדויות",
+                description: "תן 3 תשובות שונות ללקוח שטוען שהריבית גבוהה מדי",
+                timeInSeconds: 90,
+                difficulty: "hard",
+                category: "מכירות",
+                explanation: "הדגש את היתרונות והערך ללקוח",
+                tips: "השווה להצעות מתחרים והדגש את היתרונות שלנו"
+            },
+            {
+                name: "חישוב מהיר",
+                description: "חשב ריבית חודשית על הלוואה של 120,000 ₪ בריבית שנתית 6%",
+                timeInSeconds: 45,
+                difficulty: "medium",
+                category: "פיננסים",
+                explanation: "חלק את הריבית השנתית ב-12",
+                tips: "קודם חשב 1% ואז הכפל ב-6"
+            },
+            {
+                name: "משחק תפקידים - לקוח מתלונן",
+                description: "התמודד עם לקוח כועס שקיבל דחייה להלוואה",
+                timeInSeconds: 120,
+                difficulty: "hard",
+                category: "שירות לקוחות",
+                explanation: "הקשב, הבן, הסבר ופתור",
+                tips: "התחל באמפתיה, המשך בהסבר מקצועי, סיים עם פתרון חלופי"
+            },
+            {
+                name: "סידור מהיר",
+                description: "מיין 20 טפסים לפי דחיפות הטיפול (היום, מחר, שבוע הבא)",
+                timeInSeconds: 60,
+                difficulty: "easy",
+                category: "ארגון",
+                explanation: "בדוק תאריכי יעד ודחיפות",
+                tips: "התחל מהדחופים ביותר"
+            },
+            {
+                name: "זיהוי מותגי רכב",
+                description: "רשום 12 מותגי רכב לפי סדר א'-ב'",
+                timeInSeconds: 45,
+                difficulty: "easy",
+                category: "רכב",
+                explanation: "חשוב על מותגים מכל היבשות",
+                tips: "התחל ממותגים נפוצים בישראל"
+            },
+            {
+                name: "השוואת הצעות",
+                description: "השווה 3 מסלולי הלוואה שונים והמלץ ללקוח על המסלול המתאים",
+                timeInSeconds: 90,
+                difficulty: "hard",
+                category: "פיננסים",
+                explanation: "התייחס לריבית, תקופה והחזר חודשי",
+                tips: "חשב את העלות הכוללת של כל מסלול"
+            },
+            {
+                name: "טיפול בתלונה",
+                description: "כתוב מענה ללקוח שהתלונן על עיכוב באישור ההלוואה",
+                timeInSeconds: 120,
+                difficulty: "medium",
+                category: "שירות לקוחות",
+                explanation: "התנצל, הסבר, הצע פתרון",
+                tips: "היה אמפתי אך מקצועי"
+            },
+            {
+                name: "מצגת בזק",
+                description: "הכן מצגת של 3 שקופיות על יתרונות מימון ישיר",
+                timeInSeconds: 150,
+                difficulty: "medium",
+                category: "מכירות",
+                explanation: "התמקד ביתרונות המרכזיים",
+                tips: "השתמש במספרים ודוגמאות"
+            },
+            {
+                name: "חידון מקצועי",
+                description: "ענה על 5 שאלות בסיסיות בנושא מימון רכב",
+                timeInSeconds: 75,
+                difficulty: "medium",
+                category: "מקצועי",
+                explanation: "חשוב על מושגי יסוד",
+                tips: "התמקד במושגים שלקוחות שואלים עליהם"
+            },
+            {
+                name: "שיחת מכירה",
+                description: "בצע שיחת מכירה מלאה בלי להשתמש במילים 'הלוואה' או 'ריבית'",
+                timeInSeconds: 120,
+                difficulty: "hard",
+                category: "מכירות",
+                explanation: "השתמש במילים חלופיות חיוביות",
+                tips: "דבר על 'פתרונות מימון' ו'תכניות תשלומים'"
+            },
+            {
+                name: "משחק זיכרון",
+                description: "זכור ושחזר 7 פרטים מטופס בקשת הלוואה",
+                timeInSeconds: 60,
+                difficulty: "medium",
+                category: "זיכרון",
+                explanation: "התמקד בפרטים החשובים",
+                tips: "ארגן את המידע בקבוצות הגיוניות"
+            },
+            {
+                name: "תרגיל קבוצתי",
+                description: "בצעו סבב של הצגת טיפ שירות אחד לכל חבר צוות",
+                timeInSeconds: 120,
+                difficulty: "medium",
+                category: "קבוצתי",
+                explanation: "שתפו טיפים מניסיון אישי",
+                tips: "התמקדו בטיפים פרקטיים ויישומיים"
+            },
+            {
+                name: "בדיקת דיוק",
+                description: "מצא 5 טעויות נפוצות בטופס בקשת הלוואה",
+                timeInSeconds: 90,
+                difficulty: "medium",
+                category: "דיוק",
+                explanation: "בדוק פרטים אישיים, סכומים ותאריכים",
+                tips: "עבור על הטופס פעמיים בכיוונים שונים"
+            },
                 name: "חישוב ריבית מהיר",
                 description: "חשב ריבית שנתית של 4.5% על הלוואה של 100,000 ₪",
                 time: "45 שניות",
