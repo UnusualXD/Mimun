@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מרתון המשימות - מימון ישיר</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --mimun-red: #e41f35;
+            --mimun-blue: #1a237e;
+            --mimun-light-blue: #e3f2fd;
+            --easy: #4caf50;
+            --medium: #ff9800;
+            --hard: #f44336;
+        }
+        body {
+            margin: 0;
+            padding: 16px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--mimun-light-blue);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .header {
+            background: var(--mimun-blue);
+            color: white;
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .subtitle {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+        }
+        .button {
+            background: var(--mimun-red);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 16px 24px;
+            font-size: 22px;
+            font-weight: bold;
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(228,31,53,0.3);
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(228,31,53,0.4);
+        }
+        .button:active {
+            transform: translateY(1px);
+        }
+        .task {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid var(--mimun-blue);
+            margin-top: 20px;
+            display: none;
+        }
+        .task-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--mimun-blue);
+            margin: 0;
+        }
+        .task-desc {
+            font-size: 18px;
+            color: #333;
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+        .footer {
+            text-align: center;
+            color: var(--mimun-blue);
+            font-weight: 500;
+            margin-top: 30px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">מימון ישיר</div>
+            <div class="subtitle">מרתון המשימות המשרדיות</div>
+        </div>
+        <button id="generateBtn" class="button">קבל משימה חדשה</button>
+        <div id="taskDisplay" class="task">
+            <h3 id="taskTitle" class="task-title"></h3>
+            <p id="taskDesc" class="task-desc"></p>
+        </div>
+        <div class="footer">שירות פיננסי - מימון ישיר</div>
+    </div>
+
+    <script>
+        // Sample tasks array
+        const tasks = [
+    {
+        title: "חישוב ריבית מהיר",
+        description: "חשב ריבית שנתית של 4.5% על הלוואה של 100,000 ₪."
+    },
+    {
+        title: "מומחה הרכב",
+        description: "רשום 8 דגמי רכב פופולריים בישראל לשנת 2024."
+    },
+    {
+        title: "פיץ' מכירות",
+        description: "הצג את יתרונות מימון הרכב בלי להשתמש במילה 'הלוואה'."
+    },
+    {
+        title: "מסע הכיסא המסתובב",
+        description: "בצע סיבוב שלם על הכיסא המשרדי מבלי שהרגליים נוגעות ברצפה."
+    },
+    {
+        title: "הסבר תהליך הלוואה",
+        description: "הסבר את תהליך אישור ההלוואה ב-5 שלבים פשוטים ללקוח חדש."
+    },
+    {
+        title: "פתרון התנגדויות",
+        description: "תן 3 תשובות שונות ללקוח שטוען שהריבית גבוהה מדי."
+    },
+    {
+        title: "חישוב מהיר",
+        description: "חשב ריבית חודשית על הלוואה של 120,000 ₪ בריבית שנתית 6%."
+    },
+    {
+        title: "משחק תפקידים - לקוח מתלונן",
+        description: "התמודד עם לקוח כועס שקיבל דחייה להלוואה."
+    },
+    {
+        title: "סידור מהיר",
+        description: "מיין 20 טפסים לפי דחיפות הטיפול (היום, מחר, שבוע הבא)."
+    },
+    {
+        title: "זיהוי מותגי רכב",
+        description: "רשום 12 מותגי רכב לפי סדר א'-ב'."
+    },
+    {
+        title: "השוואת הצעות",
+        description: "השווה 3 מסלולי הלוואה שונים והמלץ ללקוח על המסלול המתאים."
+    },
+    {
+        title: "טיפול בתלונה",
+        description: "כתוב מענה ללקוח שהתלונן על עיכוב באישור ההלוואה."
+    },
+    {
+        title: "מצגת בזק",
+        description: "הכן מצגת של 3 שקופיות על יתרונות מימון ישיר."
+    },
+    {
+        title: "חידון מקצועי",
+        description: "ענה על 5 שאלות בסיסיות בנושא מימון רכב."
+    },
+    {
+        title: "שיחת מכירה",
+        description: "בצע שיחת מכירה מלאה בלי להשתמש במילים 'הלוואה' או 'ריבית'."
+    },
+    {
+        title: "משחק זיכרון",
+        description: "זכור ושחזר 7 פרטים מטופס בקשת הלוואה."
+    },
+    {
+        title: "תרגיל קבוצתי",
+        description: "בצעו סבב של הצגת טיפ שירות אחד לכל חבר צוות."
+    },
+    {
+        title: "בדיקת דיוק",
+        description: "מצא 5 טעויות נפוצות בטופס בקשת הלוואה."
+    }];
+
+        // Elements
+        const generateBtn = document.getElementById("generateBtn");
+        const taskDisplay = document.getElementById("taskDisplay");
+        const taskTitle = document.getElementById("taskTitle");
+        const taskDesc = document.getElementById("taskDesc");
+
+        // Event listener for generating a task
+        generateBtn.addEventListener("click", () => {
+            const randomTask = tasks[Math.floor(Math.random() * tasks.length)];
+            taskTitle.textContent = randomTask.title;
+            taskDesc.textContent = randomTask.description;
+            taskDisplay.style.display = "block";
+        });
+    </script>
+</body>
+</html>
