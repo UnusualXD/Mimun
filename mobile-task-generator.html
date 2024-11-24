@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>משימות משרדיות</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 16px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 16px;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1a1a1a;
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+        .button {
+            background: #0066ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 16px 24px;
+            font-size: 18px;
+            font-weight: bold;
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .button:active {
+            background: #0052cc;
+        }
+        .task {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+        .task-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0066ff;
+            margin: 0 0 12px 0;
+        }
+        .task-desc {
+            font-size: 16px;
+            color: #333;
+            margin: 0 0 12px 0;
+            line-height: 1.5;
+        }
+        .task-time {
+            font-size: 16px;
+            color: #666;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        @media (hover: hover) {
+            .button:hover {
+                background: #0052cc;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1 class="title">משימות משרדיות</h1>
+            <button id="generateBtn" class="button">
+                🎲 קבל משימה
+            </button>
+            <div id="taskDisplay" class="task" style="display: none;">
+                <h3 id="taskTitle" class="task-title"></h3>
+                <p id="taskDesc" class="task-desc"></p>
+                <p id="taskTime" class="task-time">⏱️ <span></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const tasks = [
+            { name: "מסע הכיסא", description: "להצליח לעשות סיבוב שלם על הכיסא המשרדי מבלי שהרגליים נוגעות ברצפה", time: "45 שניות" },
+            { name: "אקרובט המשרד", description: "לקום ולשבת מהכיסא 5 פעמים בלי להשתמש בידיים", time: "דקה" },
+            { name: "אלוף השקט", description: "להעביר 3 כוסות ריקות מקצה אחד של השולחן לקצה השני מבלי להשמיע צליל", time: "2 דקות" },
+            { name: "מגדל הקליפים", description: "לבנות את המגדל הגבוה ביותר מ-10 קליפים משרדיים", time: "3 דקות" },
+            { name: "להטוטן העטים", description: "לסובב עט מסביב לאצבע 5 פעמים ברצף בלי להפיל", time: "דקה וחצי" },
+            { name: "אמן הנייר", description: "ליצור מטוס נייר שיטוס למרחק 3 מטרים לפחות", time: "2 דקות" },
+            { name: "משימת המראה", description: "לחקות את התנועות של מישהו אחר בלי לצחוק", time: "45 שניות" },
+            { name: "התעמלות משרדית", description: "לבצע 3 תנועות מתיחה מצחיקות שכולם עושים אחריך", time: "30 שניות" },
+            { name: "משחק הדממה", description: "לשבת בלי לזוז בכלל", time: "דקה" },
+            { name: "אמן המהדקים", description: "לחבר 20 מהדקים בשרשרת", time: "דקה" },
+            { name: "משימת הפנטומימה", description: "להעביר מסר של 3 מילים בפנטומימה", time: "דקה" },
+            { name: "אתגר האצבעות", description: "להזיז כל אצבע בנפרד בסדר מסוים", time: "30 שניות" },
+            { name: "קפיצת הגומייה", description: "לירות גומייה שתנחת בתוך כוס במרחק מטר", time: "3 ניסיונות, דקה" },
+            { name: "משימת האיזון", description: "להחזיק עט במאוזן על האצבע", time: "30 שניות" },
+            { name: "תחרות העיפרון", description: "לגלגל עיפרון שיעצור בדיוק אחרי 3 סיבובים", time: "3 ניסיונות, דקה" },
+            { name: "אתגר הכדור", description: "לזרוק כדור נייר לפח מרחוק 2 מטרים", time: "3 ניסיונות, דקה" },
+            { name: "משימת השתיקה", description: "לנהל שיחה שלמה רק עם הבעות פנים", time: "45 שניות" },
+            { name: "קסם הנייר", description: "ליצור צורת חיה מדף נייר אחד", time: "2 דקות" },
+            { name: "אתגר הכפתור", description: "לרכוס ולפתוח 5 כפתורים בחולצה", time: "30 שניות" },
+            { name: "משחק הזיכרון", description: "לזכור ולשחזר 7 חפצים שמישהו הראה לך", time: "צפייה 20 שניות, שחזור 20 שניות" },
+            { name: "אמן החבילה", description: "לעטוף קופסא קטנה בנייר בצורה מושלמת", time: "2 דקות" },
+            { name: "להטוטן הכוסות", description: "להעביר כדור נייר בין 3 כוסות הפוכות", time: "30 שניות" },
+            { name: "משימת הספירה", description: "לספור אחורה מ-100 בקפיצות של 7", time: "45 שניות" },
+            { name: "אתגר המילים", description: "לומר 10 מילים שמתחילות באותה אות", time: "30 שניות" },
+            { name: "משחק הצלילים", description: "ליצור מנגינה מחפצים על השולחן", time: "דקה" },
+            { name: "אמן הסידור", description: "לסדר את כל החפצים על השולחן לפי צבעים", time: "דקה" },
+            { name: "משימת הטוויסט", description: "לכתוב את השם שלך ביד הלא דומיננטית", time: "45 שניות" },
+            { name: "אתגר השרשרת", description: "ליצור שרשרת מ-15 גומיות", time: "דקה וחצי" },
+            { name: "משחק התיפוף", description: "לשחזר מקצב שמישהו מתופף", time: "30 שניות" },
+            { name: "אמן ההקלדה", description: "להקליד משפט כשהמקלדת הפוכה", time: "דקה" },
+            { name: "אתגר הלוגו", description: "לצייר לוגו מוכר מהזיכרון", time: "דקה וחצי" },
+            { name: "משימת המגדל", description: "לבנות מגדל מ-5 עטים שיעמוד יציב", time: "2 דקות" },
+            { name: "אתגר הכיסא", description: "לעשות סיבוב מלא סביב הכיסא על רגל אחת", time: "30 שניות" },
+            { name: "משחק הניחוש", description: "לצייר חפץ משרדי שאחרים צריכים לנחש", time: "45 שניות" },
+            { name: "אמן הקפיצות", description: "לקפוץ על רגל אחת תוך ספירה עד 20", time: "30 שניות" },
+            { name: "אתגר השורה", description: "לסדר 10 עטים בשורה מושלמת בלי סרגל", time: "45 שניות" },
+            { name: "משימת הזיגזג", description: "ללכת בזיגזג בין 5 כיסאות בלי לגעת", time: "30 שניות" },
+            { name: "אמן הקסם", description: "לבצע תעלול קסם פשוט עם חפץ משרדי", time: "דקה" },
+            { name: "אתגר השיווי משקל", description: "לעמוד על רגל אחת עם עיניים עצומות", time: "20 שניות" },
+            { name: "משחק המילים", description: "לומר משפט לאחור מילה במילה", time: "30 שניות" }
+        ];
+
+        const btn = document.getElementById('generateBtn');
+        const taskDisplay = document.getElementById('taskDisplay');
+        const taskTitle = document.getElementById('taskTitle');
+        const taskDesc = document.getElementById('taskDesc');
+        const taskTime = document.getElementById('taskTime').querySelector('span');
+
+        btn.addEventListener('click', () => {
+            const randomTask = tasks[Math.floor(Math.random() * tasks.length)];
+            taskTitle.textContent = randomTask.name;
+            taskDesc.textContent = randomTask.description;
+            taskTime.textContent = randomTask.time;
+            taskDisplay.style.display = 'block';
+            
+            // Add a small animation
+            taskDisplay.style.opacity = '0';
+            setTimeout(() => {
+                taskDisplay.style.opacity = '1';
+            }, 50);
+        });
+    </script>
+</body>
+</html>
