@@ -301,6 +301,25 @@
                         <span id="taskCategory" class="badge category"></span>
                     </div>
                 </div>
+               <div class="task-header">
+                    <h3 id="taskTitle" class="task-title"></h3>
+                    <div class="badges">
+                        <span id="taskDifficulty" class="badge"></span>
+                        <span id="taskCategory" class="badge category"></span>
+                    </div>
+                </div>
+                <div class="task-time">⏱️ זמן מומלץ: <span id="recommendedTime"></span></div>
+                <div class="timer-section">
+                    <div id="timer" class="timer-display"></div>
+                    <div class="timer-controls">
+                        <button id="startTimer" class="timer-btn">
+                            <i class="fas fa-play"></i> התחל
+                        </button>
+                        <button id="resetTimer" class="timer-btn" style="display: none;">
+                            <i class="fas fa-redo"></i> אפס
+                        </button>
+                    </div>
+                </div>
                 <div class="timer-section">
                     <div id="timer" class="timer-display">03:00</div>
                     <div class="timer-controls">
@@ -325,239 +344,210 @@
             שירות פיננסי - מימון ישיר
         </div>
     </div>
-<script>
-       const tasks = [
-           {
-               name: "חישוב ריבית מהיר",
-               description: "חשב ריבית שנתית של 4.5% על הלוואה של 100,000 ₪",
-               time: "45 שניות",
-               difficulty: "medium",
-               category: "פיננסים",
-               explanation: "שים לב: 100,000 × 0.045 = סכום הריבית השנתית",
-               tips: "חלק את האחוז ל-100 לפני הכפל, עגל את התוצאה לשקלים שלמים"
-           },
-           {
-               name: "מומחה הרכב",
-               description: "רשום 8 דגמי רכב פופולריים בישראל לשנת 2024",
-               time: "דקה",
-               difficulty: "easy",
-               category: "רכב",
-               explanation: "חשוב על הרכבים הנפוצים ביותר בכבישים",
-               tips: "התחל עם המותגים היפניים והקוריאניים הנפוצים"
-           },
-           {
-               name: "פיץ' מכירות",
-               description: "הצג את יתרונות מימון הרכב בלי להשתמש במילה 'הלוואה'",
-               time: "דקה וחצי",
-               difficulty: "hard",
-               category: "מכירות",
-               explanation: "התמקד ביתרונות ללקוח ובגמישות הפתרון",
-               tips: "השתמש במילים כמו: מימון, פתרון כלכלי, תשלומים נוחים"
-           },
-           {
-               name: "סידור מהיר",
-               description: "סדר 10 טפסי בקשה לפי סדר א'-ב' של שמות משפחה",
-               time: "דקה",
-               difficulty: "medium",
-               category: "ארגון",
-               explanation: "מיין לפי האות הראשונה ואז סדר כל קבוצה",
-               tips: "חלק את הטפסים לערימות לפי אותיות"
-           },
-           {
-               name: "תזכורת טלפונית",
-               description: "השאר 3 הודעות קוליות מקצועיות שונות למשיבון",
-               time: "2 דקות",
-               difficulty: "medium",
-               category: "שירות",
-               explanation: "הקפד על טון מקצועי ומידע מדויק",
-               tips: "הכן מראש את המידע החשוב שצריך להעביר"
-           },
-           {
-               name: "מומחה המספרים",
-               description: "המר 5 סכומי הלוואות שונים מדולר לשקל בשער 3.7",
-               time: "דקה וחצי",
-               difficulty: "hard",
-               category: "פיננסים",
-               explanation: "הכפל כל סכום ב-3.7",
-               tips: "עגל את התוצאות לאלפים שלמים"
-           },
-           {
-               name: "שרשרת מהדקים",
-               description: "חבר 15 מהדקים לשרשרת אחת רציפה",
-               time: "דקה",
-               difficulty: "easy",
-               category: "זריזות",
-               explanation: "חבר כל מהדק בזהירות ובדוק שהחיבור יציב",
-               tips: "השתמש במהדקים באותו גודל לשרשרת יציבה"
-           },
-           {
-               name: "מגדל הכוסות",
-               description: "בנה פירמידה מ-6 כוסות פלסטיק הפוכות",
-               time: "דקה",
-               difficulty: "medium",
-               category: "יצירתיות",
-               explanation: "התחל מבסיס יציב של 3 כוסות",
-               tips: "ודא שכל שורה מונחת במרכז השורה שמתחתיה"
-           },
-           {
-               name: "זיכרון מספרים",
-               description: "זכור ושחזר 5 מספרי טלפון שונים של לקוחות",
-               time: "2 דקות",
-               difficulty: "hard",
-               category: "זיכרון",
-               explanation: "חלק כל מספר לקבוצות של 3 ספרות",
-               tips: "נסה ליצור דפוס או משמעות למספרים"
-           },
-           {
-               name: "מסלול מכשולים",
-               description: "עבור בין 5 כיסאות בזיגזג עם כוס מים מלאה",
-               time: "45 שניות",
-               difficulty: "medium",
-               category: "זריזות",
-               explanation: "שמור על קצב אחיד ויציב",
-               tips: "התרכז בכוס ולא במכשולים"
-           },
-           {
-               name: "אתגר החישוב",
-               description: "חשב את סכום התשלום החודשי להחזר הלוואה של 50,000 ₪ ל-60 חודשים בריבית 5%",
-               time: "2 דקות",
-               difficulty: "hard",
-               category: "פיננסים",
-               explanation: "השתמש בנוסחת PMT או בכלי חישוב",
-               tips: "חלק את הסכום הכולל (כולל ריבית) למספר התשלומים"
-           },
-           {
-               name: "התאמת מסמכים",
-               description: "מצא 5 אי-התאמות בין שני טפסי בקשה",
-               time: "דקה וחצי",
-               difficulty: "medium",
-               category: "דיוק",
-               explanation: "השווה שורה אחר שורה בין הטפסים",
-               tips: "סמן כל אי-התאמה שמצאת בעיפרון"
-           },
-           {
-               name: "מומחה המותגים",
-               description: "זהה 10 לוגואים של יצרני רכב מתוך תמונות חלקיות",
-               time: "דקה",
-               difficulty: "medium",
-               category: "רכב",
-               explanation: "התמקד בפרטים הייחודיים של כל לוגו",
-               tips: "שים לב לצבעים ולצורות האופייניות"
-           },
-           {
-               name: "סידור קבצים",
-               description: "ארגן 20 מסמכים דיגיטליים בתיקיות לפי קטגוריות",
-               time: "2 דקות",
-               difficulty: "easy",
-               category: "ארגון",
-               explanation: "צור תיקיות לפי סוגי המסמכים",
-               tips: "התחל עם הקטגוריות הברורות ביותר"
-           },
-           {
-               name: "מצגת בזק",
-               description: "הכן מצגת של 3 שקופיות על יתרונות מימון ישיר",
-               time: "3 דקות",
-               difficulty: "medium",
-               category: "מכירות",
-               explanation: "התמקד ביתרונות העיקריים",
-               tips: "השתמש בנקודות קצרות וברורות"
-           }
-       ];
+    <script>
+        const tasks = [
+            {
+                name: "מסע הכיסא המסתובב",
+                description: "בצע סיבוב שלם על הכיסא המשרדי מבלי שהרגליים נוגעות ברצפה",
+                timeInSeconds: 30,
+                difficulty: "easy",
+                category: "משרדי",
+                explanation: "התרכז בשיווי המשקל ושמור על גב זקוף",
+                tips: "שב במרכז הכיסא ואחוז בשולחן לפני תחילת הסיבוב"
+            },
+            {
+                name: "שיחת שירות",
+                description: "הסבר ללקוח מדוע יש עיכוב באישור ההלוואה בלי להשתמש במילה 'בעיה'",
+                timeInSeconds: 60,
+                difficulty: "medium",
+                category: "שירות לקוחות",
+                explanation: "התמקד בפתרונות ובזמני טיפול",
+                tips: "השתמש במילים חיוביות כמו 'טיפול', 'תהליך', 'התקדמות'"
+            },
+            {
+                name: "חישוב החזר חודשי",
+                description: "חשב החזר חודשי להלוואת רכב: 150,000 ₪ ל-60 חודשים בריבית 4%",
+                timeInSeconds: 90,
+                difficulty: "hard",
+                category: "פיננסים",
+                explanation: "השתמש בנוסחת החזר חודשי: קרן*(ריבית/12)/(1-(1+ריבית/12)^-60)",
+                tips: "חלק את הריבית ל-100 ואז ל-12 לקבלת ריבית חודשית"
+            },
+            {
+                name: "מיון מסמכים",
+                description: "מיין 15 טפסי הלוואה לשלוש ערימות: מאושר, בטיפול, נדחה",
+                timeInSeconds: 45,
+                difficulty: "easy",
+                category: "ארגון",
+                explanation: "עבוד בצורה שיטתית, ערימה אחר ערימה",
+                tips: "הכן מראש את המקום לשלוש הערימות"
+            },
+            {
+                name: "פנטומימת רכב",
+                description: "הצג בפנטומימה 3 סוגי רכבים שונים שהקבוצה צריכה לנחש",
+                timeInSeconds: 60,
+                difficulty: "medium",
+                category: "משחק קבוצתי",
+                explanation: "השתמש בתנועות המאפיינות כל סוג רכב",
+                tips: "חשוב על גודל הרכב, שימושים אופייניים"
+            },
+            {
+                name: "מענה ללקוח נסער",
+                description: "הגב למייל כועס מלקוח שההלוואה שלו נדחתה",
+                timeInSeconds: 120,
+                difficulty: "hard",
+                category: "שירות לקוחות",
+                explanation: "שמור על טון מקצועי ואמפתי",
+                tips: "פתח בהבנה, המשך בהסבר ענייני, סיים עם הצעה לפתרון"
+            },
+            {
+                name: "סידור שולחן",
+                description: "סדר את שולחן העבודה לפי עקרונות 5S",
+                timeInSeconds: 90,
+                difficulty: "medium",
+                category: "ארגון",
+                explanation: "מיין, סדר, נקה, תקנן, שמר",
+                tips: "התחל מלהוציא כל מה שלא נחוץ"
+            },
+            {
+                name: "שיחת מכירה",
+                description: "בצע פיץ' מכירה של מימון רכב תוך שימוש ב-3 יתרונות מרכזיים",
+                timeInSeconds: 45,
+                difficulty: "medium",
+                category: "מכירות",
+                explanation: "התמקד ביתרונות הבולטים ביותר למימון דרכנו",
+                tips: "השתמש בדוגמאות מספריות פשוטות"
+            },
+            {
+                name: "משחק התפקידים",
+                description: "הדגם שיחת טלפון עם לקוח המתלבט בין שתי הלוואות",
+                timeInSeconds: 120,
+                difficulty: "hard",
+                category: "שירות לקוחות",
+                explanation: "עזור ללקוח להבין את ההבדלים בין המסלולים",
+                tips: "השתמש בדוגמאות מספריות להמחשה"
+            },
+            {
+                name: "בדיקת טפסים",
+                description: "מצא 5 טעויות נפוצות בטופס בקשת הלוואה",
+                timeInSeconds: 60,
+                difficulty: "medium",
+                category: "דיוק",
+                explanation: "בדוק במיוחד תאריכים, סכומים ופרטים אישיים",
+                tips: "עבור על הטופס פעמיים, כל פעם בכיוון אחר"
+            }
+        ];
 
-       const btn = document.getElementById('generateBtn');
-       const taskDisplay = document.getElementById('taskDisplay');
-       const taskTitle = document.getElementById('taskTitle');
-       const taskDesc = document.getElementById('taskDesc');
-       const taskExplanation = document.getElementById('taskExplanation');
-       const taskDifficulty = document.getElementById('taskDifficulty');
-       const taskCategory = document.getElementById('taskCategory');
-       const taskTips = document.getElementById('taskTips');
-       const counter = document.getElementById('counter');
-       const timer = document.getElementById('timer');
-       const startTimerBtn = document.getElementById('startTimer');
-       const resetTimerBtn = document.getElementById('resetTimer');
-       const filterBtns = document.querySelectorAll('.filter-btn');
+        const btn = document.getElementById('generateBtn');
+        const taskDisplay = document.getElementById('taskDisplay');
+        const taskTitle = document.getElementById('taskTitle');
+        const taskDesc = document.getElementById('taskDesc');
+        const taskExplanation = document.getElementById('taskExplanation');
+        const taskDifficulty = document.getElementById('taskDifficulty');
+        const taskCategory = document.getElementById('taskCategory');
+        const taskTips = document.getElementById('taskTips');
+        const counter = document.getElementById('counter');
+        const timer = document.getElementById('timer');
+        const recommendedTime = document.getElementById('recommendedTime');
+        const startTimerBtn = document.getElementById('startTimer');
+        const resetTimerBtn = document.getElementById('resetTimer');
+        const filterBtns = document.querySelectorAll('.filter-btn');
 
-       let tasksShown = 0;
-       let timerInterval;
-       let currentFilter = 'all';
+        let tasksShown = 0;
+        let timerInterval;
+        let currentFilter = 'all';
+        let currentTaskTime = 0;
 
-       function formatTime(time) {
-           const minutes = Math.floor(time / 60);
-           const seconds = time % 60;
-           return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-       }
+        function formatTime(seconds) {
+            if (seconds >= 60) {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                if (remainingSeconds === 0) {
+                    return `${minutes} דקות`;
+                }
+                return `${minutes} דקות ו-${remainingSeconds} שניות`;
+            }
+            return `${seconds} שניות`;
+        }
 
-       function startTimer(duration) {
-           clearInterval(timerInterval);
-           let timeLeft = duration;
-           timer.textContent = formatTime(timeLeft);
-           
-           startTimerBtn.style.display = 'none';
-           resetTimerBtn.style.display = 'inline-block';
-           
-           timerInterval = setInterval(() => {
-               timeLeft--;
-               timer.textContent = formatTime(timeLeft);
-               
-               if (timeLeft <= 0) {
-                   clearInterval(timerInterval);
-                   timer.textContent = 'הזמן נגמר!';
-               }
-           }, 1000);
-       }
+        function formatTimeForTimer(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+        }
 
-       filterBtns.forEach(btn => {
-           btn.addEventListener('click', () => {
-               filterBtns.forEach(b => b.classList.remove('active'));
-               btn.classList.add('active');
-               currentFilter = btn.dataset.filter;
-           });
-       });
+        function startTimer(duration) {
+            clearInterval(timerInterval);
+            let timeLeft = duration;
+            timer.textContent = formatTimeForTimer(timeLeft);
+            
+            startTimerBtn.style.display = 'none';
+            resetTimerBtn.style.display = 'inline-block';
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timer.textContent = formatTimeForTimer(timeLeft);
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timer.textContent = 'הזמן נגמר!';
+                    resetTimerBtn.style.display = 'inline-block';
+                }
+            }, 1000);
+        }
 
-       btn.addEventListener('click', () => {
-           let filteredTasks = tasks;
-           if (currentFilter !== 'all') {
-               filteredTasks = tasks.filter(task => task.difficulty === currentFilter);
-           }
-           
-           const randomTask = filteredTasks[Math.floor(Math.random() * filteredTasks.length)];
-           
-           taskTitle.textContent = randomTask.name;
-           taskDesc.textContent = randomTask.description;
-           taskExplanation.textContent = randomTask.explanation;
-           taskTips.textContent = randomTask.tips;
-           taskDifficulty.textContent = getDifficultyText(randomTask.difficulty);
-           taskDifficulty.className = `badge ${randomTask.difficulty}`;
-           taskCategory.textContent = randomTask.category;
-           
-           tasksShown++;
-           counter.textContent = tasksShown;
-           
-           taskDisplay.style.display = 'block';
-           resetTimerBtn.style.display = 'none';
-           startTimerBtn.style.display = 'inline-block';
-           timer.textContent = '00:00';
-           clearInterval(timerInterval);
-       });
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+            });
+        });
 
-       function getDifficultyText(difficulty) {
-           switch(difficulty) {
-               case 'easy': return 'קל';
-               case 'medium': return 'בינוני';
-               case 'hard': return 'מאתגר';
-               default: return '';
-           }
-       }
+        btn.addEventListener('click', () => {
+            let filteredTasks = tasks;
+            if (currentFilter !== 'all') {
+                filteredTasks = tasks.filter(task => task.difficulty === currentFilter);
+            }
+            
+            const randomTask = filteredTasks[Math.floor(Math.random() * filteredTasks.length)];
+            currentTaskTime = randomTask.timeInSeconds;
+            
+            taskTitle.textContent = randomTask.name;
+            taskDesc.textContent = randomTask.description;
+            taskExplanation.textContent = randomTask.explanation;
+            taskTips.textContent = randomTask.tips;
+            recommendedTime.textContent = formatTime(randomTask.timeInSeconds);
+            taskDifficulty.textContent = getDifficultyText(randomTask.difficulty);
+            taskDifficulty.className = `badge ${randomTask.difficulty}`;
+            taskCategory.textContent = randomTask.category;
+            
+            tasksShown++;
+            counter.textContent = tasksShown;
+            
+            clearInterval(timerInterval);
+            timer.textContent = formatTimeForTimer(currentTaskTime);
+            startTimerBtn.style.display = 'inline-block';
+            resetTimerBtn.style.display = 'none';
+            taskDisplay.style.display = 'block';
+        });
 
-       startTimerBtn.addEventListener('click', () => startTimer(180));
-       
-       resetTimerBtn.addEventListener('click', () => {
-           clearInterval(timerInterval);
-           timer.textContent = formatTime(180);
-           startTimerBtn.style.display = 'inline-block';
-           resetTimerBtn.style.display = 'none';
-       });
-   </script>
+        function getDifficultyText(difficulty) {
+            return {
+                'easy': 'קל',
+                'medium': 'בינוני',
+                'hard': 'מאתגר'
+            }[difficulty] || '';
+        }
+
+        startTimerBtn.addEventListener('click', () => startTimer(currentTaskTime));
+        
+        resetTimerBtn.addEventListener('click', () => {
+            clearInterval(timerInterval);
+            timer.textContent = formatTimeForTimer(currentTaskTime);
+            startTimerBtn.style.display = 'inline-block';
+            resetTimerBtn.style.display = 'none';
+        });
+    </script>
 </body>
 </html>
